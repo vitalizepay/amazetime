@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AmazeTimes - தமிழ் செய்திகள்</title>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Noto Sans Tamil', 'Latha', 'Tahoma', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+        }
+        
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        ul {
+            list-style: none;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .top-bar {
+            background-color: #1a5276;
+            color: white;
+            padding: 8px 0;
+            font-size: 14px;
+        }
+        
+        .top-bar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .date-time {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .weather-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .weather-icon {
+            font-size: 18px;
+        }
+        
+        .main-header {
+            padding: 15px 0;
+        }
+        
+        .logo-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo img {
+            height: 40px;
+        }
+        
+        .logo-text {
+            font-size: 28px;
+            font-weight: bold;
+            color: #1a5276;
+        }
+        
+        .search-bar {
+            display: flex;
+            width: 300px;
+        }
+        
+        .search-bar input {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-right: none;
+            border-radius: 4px 0 0 4px;
+        }
+        
+        .search-bar button {
+            background: #1a5276;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .social-icons a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            background: #f0f0f0;
+            border-radius: 50%;
+            color: #555;
+        }
+        
+        /* Navigation */
+        nav {
+            background-color: #1a5276;
+        }
+        
+        .main-nav {
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .main-nav a {
+            color: white;
+            padding: 12px 15px;
+            display: block;
+            font-weight: 500;
+            transition: background 0.3s;
+        }
+        
+        .main-nav a:hover {
+            background-color: #154360;
+        }
+        
+        /* Main Content */
+        .main-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin: 30px 0;
+        }
+        
+        /* Breaking News */
+        .breaking-news {
+            background-color: #e8f4fd;
+            padding: 10px 15px;
+            border-left: 4px solid #1a5276;
+            margin-bottom: 20px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+        
+        .breaking-label {
+            background-color: #e74c3c;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 3px;
+            margin-right: 10px;
+            font-size: 14px;
+        }
+        
+        /* News Sections */
+        .news-section {
+            background-color: white;
+            border-radius: 4px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        .section-title {
+            border-bottom: 2px solid #1a5276;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+            font-size: 22px;
+            color: #1a5276;
+        }
+        
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .news-card {
+            border: 1px solid #eee;
+            border-radius: 4px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .news-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .news-image {
+            height: 160px;
+            background-color: #eee;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .news-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+        
+        .news-card:hover .news-image img {
+            transform: scale(1.05);
+        }
+        
+        .news-category {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: #1a5276;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 12px;
+        }
+        
+        .news-content {
+            padding: 15px;
+        }
+        
+        .news-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+        
+        .news-excerpt {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 10px;
+        }
+        
+        .news-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #777;
+            margin-top: 10px;
+        }
+        
+        .read-story {
+            display: inline-block;
+            color: #1a5276;
+            font-weight: bold;
+            margin-top: 8px;
+        }
+        
+        /* Sidebar */
+        .sidebar-widget {
+            background-color: white;
+            border-radius: 4px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        .widget-title {
+            border-bottom: 2px solid #1a5276;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+            font-size: 18px;
+            color: #1a5276;
+        }
+        
+        .trending-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .trending-list li:last-child {
+            border-bottom: none;
+        }
+        
+        /* Weather Widget */
+        .weather-widget {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px;
+            background: linear-gradient(to bottom, #1a5276, #2e86c1);
+            color: white;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .weather-city {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        
+        .weather-temp {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .weather-desc {
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+        
+        .weather-aqi {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255,255,255,0.2);
+            padding: 5px 10px;
+            border-radius: 20px;
+        }
+        
+        .aqi-bar {
+            width: 100px;
+            height: 6px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        
+        .aqi-level {
+            height: 100%;
+            background: #2ecc71;
+            width: 50%;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: #222;
+            color: #ddd;
+            padding: 40px 0 20px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-section h3 {
+            color: white;
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a:hover {
+            color: #1a5276;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #444;
+            font-size: 14px;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .logo-section {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .search-bar {
+                width: 100%;
+                margin: 10px 0;
+            }
+            
+            .main-nav {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .news-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .top-bar .container {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <div class="top-bar">
+            <div class="container">
+                <div class="date-time">
+                    <span id="current-date"></span>
+                    <span id="current-time"></span>
+                </div>
+                <div class="weather-info">
+                    <span class="weather-icon">☀️</span>
+                    <span>கோயம்புத்தூர் 25℃</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="main-header">
+            <div class="container">
+                <div class="logo-section">
+                    <div class="logo">
+                        <div class="logo-text">AmazeTimes</div>
+                    </div>
+                    <div class="search-bar">
+                        <input type="text" placeholder="செய்திகளை தேடுங்கள்...">
+                        <button>தேடு</button>
+                    </div>
+                    <div class="social-icons">
+                        <a href="#"><span>FB</span></a>
+                        <a href="#"><span>TW</span></a>
+                        <a href="#"><span>YT</span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <nav>
+            <div class="container">
+                <ul class="main-nav">
+                    <li><a href="#">முகப்பு</a></li>
+                    <li><a href="#">செய்திகள்</a></li>
+                    <li><a href="#">மாவட்டம்</a></li>
+                    <li><a href="#">வீடியோக்கள்</a></li>
+                    <li><a href="#">நகரம்</a></li>
+                    <li><a href="#">ஜோதிடம்</a></li>
+                    <li><a href="#">தமிழ்</a></li>
+                    <li><a href="#">தினசரி</a></li>
+                    <li><a href="#">காலண்டர்</a></li>
+                    <li><a href="#">சினிமா</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    
+    <!-- Main Content -->
+    <main class="container">
+        <div class="breaking-news">
+            <span class="breaking-label">அதிகாரப்பூர்வம்</span>
+            <span>தமிழகத்தில் ஆசிரியர் வேலை... ஹால் டிக்கெட் வெளியிட்டு டிஆர்பி முக்கிய அறிவிப்பு</span>
+        </div>
+        
+        <div class="main-content">
+            <div class="content-left">
+                <!-- Top Stories -->
+                <section class="news-section">
+                    <h2 class="section-title">முக்கிய செய்திகள்</h2>
+                    <div class="news-grid">
+                        <article class="news-card">
+                            <div class="news-image">
+                                <div class="news-category">தமிழ்நாடு</div>
+                                <img src="https://via.placeholder.com/300x160" alt="News Image">
+                            </div>
+                            <div class="news-content">
+                                <h3 class="news-title">கரூர் துயரம்.. 4 நிமிட வீடியோ வெளியிட்டும்.. ஒரு இடத்தில் கூட மன்னிப்பு கேட்காத விஜய்!</h3>
+                                <p class="news-excerpt">கரூர் சம்பவம் தொடர்பாக விஜய் வெளியிட்ட விளக்க வீடியோவை எதிர்க்கட்சிகள் கடுமையாக விமர்சித்துள்ளன.</p>
+                                <div class="news-meta">
+                                    <span>2 மணி நேரம் முன்பு</span>
+                                    <span>1.2K பார்வைகள்</span>
+                                </div>
+                                <a href="#" class="read-story">Read Full Story</a>
+                            </div>
+                        </article>
+                        
+                        <article class="news-card">
+                            <div class="news-image">
+                                <div class="news-category">வேலைவாய்ப்பு</div>
+                                <img src="https://via.placeholder.com/300x160" alt="News Image">
+                            </div>
+                            <div class="news-content">
+                                <h3 class="news-title">TCS: 80000 ஊழியர்களை பணிநீக்கம்.. டெக் ஊழியர்களின் கண்ணீர் பதிவு..!</h3>
+                                <p class="news-excerpt">டாடா கன்சல்டன்சி சர்வீசஸ் நிறுவனம் 80,000 ஊழியர்களை பணிநீக்கம் செய்ய திட்டமிட்டுள்ளதாக செய்திகள் வெளியாகியுள்ளன.</p>
+                                <div class="news-meta">
+                                    <span>4 மணி நேரம் முன்பு</span>
+                                    <span>2.1K பார்வைகள்</span>
+                                </div>
+                                <a href="#" class="read-story">Read Full Story</a>
+                            </div>
+                        </article>
+                        
+                        <article class="news-card">
+                            <div class="news-image">
+                                <div class="news-category">திரைப்படம்</div>
+                                <img src="https://via.placeholder.com/300x160" alt="News Image">
+                            </div>
+                            <div class="news-content">
+                                <h3 class="news-title">ஜி.வி. பிரகாஷ் - சைந்தவி விவாகரத்து தீர்ப்பு வந்துடுச்சு.. பெண் குழந்தையின் நிலை என்ன?</h3>
+                                <p class="news-excerpt">இசையமைப்பாளர் ஜி.வி. பிரகாஷ் மற்றும் நடிகை சைந்தவி ஆகியோருக்கு இடையேயான விவாகரத்து வழக்கில் நீதிமன்றம் தீர்ப்பு வழங்கியுள்ளது.</p>
+                                <div class="news-meta">
+                                    <span>6 மணி நேரம் முன்பு</span>
+                                    <span>3.5K பார்வைகள்</span>
+                                </div>
+                                <a href="#" class="read-story">Read Full Story</a>
+                            </div>
+                        </article>
+                        
+                        <article class="news-card">
+                            <div class="news-image">
+                                <div class="news-category">விளையாட்டு</div>
+                                <img src="https://via.placeholder.com/300x160" alt="News Image">
+                            </div>
+                            <div class="news-content">
+                                <h3 class="news-title">நீ தான் டா கோட்ச்..ஆசிய கோப்பையை வென்று வீட்டிற்கு கூட போகாத கம்பீர்..</h3>
+                                <p class="news-excerpt">ஆசிய கோப்பை கிரிக்கெட் தொடரை வென்ற இந்திய அணியின் முக்கிய வீரர்கள் நேரடியாக அகமதாபாத்திற்கு புறப்பட்டனர்.</p>
+                                <div class="news-meta">
+                                    <span>8 மணி நேரம் முன்பு</span>
+                                    <span>4.2K பார்வைகள்</span>
+                                </div>
+                                <a href="#" class="read-story">Read Full Story</a>
+                            </div>
+                        </article>
+                    </div>
+                </section>
+                
+                <!-- Tamil Nadu News -->
+                <section class="news-section">
+                    <h2 class="section-title">தமிழ்நாடு செய்திகள்</h2>
+                    <div class="news-grid">
+                        <article class="news-card">
+                            <div class="news-image">
+                                <div class="news-category">சென்னை</div>
+                                <img src="https://via.placeholder.com/300x160" alt="News Image">
+                            </div>
+                            <div class="news-content">
+                                <h3 class="news-title">சென்னை எண்ணூர் அனல் மின் நிலையத்தில் விபத்து.. 9 வடமாநில தொழிலாளர்கள் உயிரிழப்பு!</h3>
+                                <p class="news-excerpt">சென்னை எண்ணூர் அனல் மின் நிலையத்தில் நடந்த விபத்தில் 9 வடமாநில தொழிலாளர்கள் உயிரிழந்தனர்.</p>
+                                <div class="news-meta">
+                                    <span>3 மணி நேரம் முன்பு</span>
+                                    <span>1.8K பார்வைகள்</span>
+                                </div>
+                                <a href="#" class="read-story">Read Story</a>
+                            </div>
+                        </article>
+                        
+                        <article class="news-card">
+                            <div class="news-image">
+                                <div class="news-category">கரூர்</div>
+                                <img src="https://via.placeholder.com/300x160" alt="News Image">
+                            </div>
+                            <div class="news-content">
+                                <h3 class="news-title">கரூர் துயரம்.. எரிகிற தீயில் எண்ணெய் ஊற்றி.. அரசியல் செய்யும் விஜய்..</h3>
+                                <p class="news-excerpt">கரூர் சம்பவம் தொடர்பாக விஜய் வெளியிட்ட விளக்க வீடியோவை பத்திரிகையாளர் சுவாமிநாதன் கடுமையாக விமர்சித்தார்.</p>
+                                <div class="news-meta">
+                                    <span>5 மணி நேரம் முன்பு</span>
+                                    <span>1.5K பார்வைகள்</span>
+                                </div>
+                                <a href="#" class="read-story">Read Story</a>
+                            </div>
+                        </article>
+                    </div>
+                </section>
+            </div>
+            
+            <div class="sidebar">
+                <!-- Weather Widget -->
+                <div class="weather-widget">
+                    <div class="weather-city">கோயம்புத்தூர்</div>
+                    <div class="weather-temp">25℃</div>
+                    <div class="weather-desc">CLOUDY</div>
+                    <div class="weather-aqi">
+                        <span>50 AQI</span>
+                        <div class="aqi-bar">
+                            <div class="aqi-level"></div>
+                        </div>
+                        <span>Good</span>
+                    </div>
+                </div>
+                
+                <!-- Trending News -->
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">முக்கிய செய்திகள்</h3>
+                    <ul class="trending-list">
+                        <li><a href="#">கரூர் துயரம்.. 4 நிமிட வீடியோ வெளியிட்டும்.. ஒரு இடத்தில் கூட மன்னிப்பு கேட்காத விஜய்!</a></li>
+                        <li><a href="#">TCS: 80000 ஊழியர்களை பணிநீக்கம்.. டெக் ஊழியர்களின் கண்ணீர் பதிவு..!</a></li>
+                        <li><a href="#">ஜி.வி. பிரகாஷ் - சைந்தவி விவாகரத்து தீர்ப்பு வந்துடுச்சு.. பெண் குழந்தையின் நிலை என்ன?</a></li>
+                        <li><a href="#">நீ தான் டா கோட்ச்..ஆசிய கோப்பையை வென்று வீட்டிற்கு கூட போகாத கம்பீர்..</a></li>
+                        <li><a href="#">சென்னை எண்ணூர் அனல் மின் நிலையத்தில் விபத்து.. 9 வடமாநில தொழிலாளர்கள் உயிரிழப்பு!</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Latest News -->
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">சமீபத்திய செய்திகள்</h3>
+                    <ul class="trending-list">
+                        <li><a href="#">கரூர் துயரம்.. எரிகிற தீயில் எண்ணெய் ஊற்றி.. அரசியல் செய்யும் விஜய்..</a></li>
+                        <li><a href="#">IRCTC: ரயில் டிக்கெட் முன்பதிவு.. நாளை அமலுக்கு வரும் புதிய விதிகள்..</a></li>
+                        <li><a href="#">தமிழ்நாட்டில் வடகிழக்கு பருவமழை அதிகமாக இருக்கும்.. அக்டோபர் டூ டிசம்பர்..</a></li>
+                        <li><a href="#">Bigg Boss: வரும் ஞாயிற்றுக்கிழமை பிக் பாஸ் தமிழ் 9 தொடக்கம்..</a></li>
+                        <li><a href="#">ஆயுத பூஜைக்கு இந்த பக்குவத்துல சுண்டல் செய்யுங்க.. டேஸ்ட் வேற லெவல்-ல இருக்கும்...</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>AmazeTimes</h3>
+                    <p>நம்பகமான மற்றும் சரியான நேரத்தில் வெளியாகும் செய்திகள். தமிழ்நாடு மற்றும் உலகம் முழுவதும் நடக்கும் முக்கிய நிகழ்வுகளை உங்களுக்கு வழங்குகிறோம்.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>விரிவான செய்திகள்</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">தமிழ்நாடு</a></li>
+                        <li><a href="#">இந்தியா</a></li>
+                        <li><a href="#">உலகம்</a></li>
+                        <li><a href="#">விநோதம்</a></li>
+                        <li><a href="#">திரைப்படம்</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>பயனுள்ள இணைப்புகள்</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">எங்களைப் பற்றி</a></li>
+                        <li><a href="#">தொடர்பு கொள்ள</a></li>
+                        <li><a href="#">தனியுரிமைக் கொள்கை</a></li>
+                        <li><a href="#">விளம்பரம்</a></li>
+                        <li><a href="#">ஆசிரியர்களுக்கு</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>எங்களைத் தொடரவும்</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Facebook</a></li>
+                        <li><a href="#">Twitter</a></li>
+                        <li><a href="#">YouTube</a></li>
+                        <li><a href="#">Instagram</a></li>
+                        <li><a href="#">Telegram</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2025 AmazeTimes. அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Update current date and time
+        function updateDateTime() {
+            const now = new Date();
+            
+            // Format date in Tamil locale
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const dateString = now.toLocaleDateString('ta-IN', options);
+            
+            // Format time
+            const timeString = now.toLocaleTimeString('ta-IN', { hour: '2-digit', minute: '2-digit' });
+            
+            document.getElementById('current-date').textContent = dateString;
+            document.getElementById('current-time').textContent = timeString;
+        }
+        
+        // Update date and time immediately and then every minute
+        updateDateTime();
+        setInterval(updateDateTime, 60000);
+    </script>
+</body>
+</html>
